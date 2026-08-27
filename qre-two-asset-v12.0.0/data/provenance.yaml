@@ -1,0 +1,48 @@
+assets:
+  VOO:
+  - start: '1993-01-29'
+    end: '2010-09-08'
+    source_name: Yahoo Finance
+    source_series: SPY auto-adjusted daily Close
+    history_kind: proxy
+    return_basis: adjusted_total_return
+    expense_adjustment_bps: 0.0
+    hypothetical: true
+    primary_claim_allowed: false
+    notes: SPY is used as the pre-inception proxy for the VOO/S&P 500 sleeve. SPY
+      and VOO both track the S&P 500, but their fees/tracking differ slightly.
+  - start: '2010-09-09'
+    end: null
+    source_name: Yahoo Finance
+    source_series: VOO auto-adjusted daily Close
+    history_kind: live_etf
+    return_basis: adjusted_total_return
+    expense_adjustment_bps: 0.0
+    hypothetical: false
+    primary_claim_allowed: false
+    notes: Actual VOO ETF era. Public bootstrap source; verify against an authoritative
+      provider before a primary claim.
+  KMLM:
+  - start: '1993-01-29'
+    end: '2020-12-01'
+    source_name: Public GitHub Gist referenced by QuantConnect community
+    source_series: KMLMX_rev.csv
+    history_kind: proxy
+    return_basis: net_total_return
+    expense_adjustment_bps: 0.0
+    hypothetical: true
+    primary_claim_allowed: false
+    notes: Diagnostic pre-inception KMLM proxy. Public KMLMX history; provenance is
+      not authoritative enough for a primary alpha claim. Replace with official KFA/MLM
+      history when available.
+  - start: '2020-12-02'
+    end: null
+    source_name: Yahoo Finance
+    source_series: KMLM auto-adjusted daily Close
+    history_kind: live_etf
+    return_basis: adjusted_total_return
+    expense_adjustment_bps: 0.0
+    hypothetical: false
+    primary_claim_allowed: false
+    notes: Actual KMLM ETF era. Public bootstrap source; verify against an authoritative
+      provider before a primary claim.

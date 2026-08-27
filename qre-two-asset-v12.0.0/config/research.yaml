@@ -1,0 +1,44 @@
+project_name: QRE VOO-KMLM v12
+market_data: ../data/market_levels.csv
+provenance: ../data/provenance.yaml
+macro_data: null
+output_directory: ../outputs
+artifact_directory: ../artifacts
+feature_variants: [A, B, C, D]
+
+walk_forward:
+  minimum_train_years: 8
+  test_years: 1
+  step_years: 1
+  inner_folds: 3
+  sampling: weekly
+
+models:
+  horizons: [21, 63, 126]
+  horizon_weights: [0.20, 0.35, 0.45]
+  random_seed: 1729
+  ridge_alphas: [1.0, 10.0]
+  logistic_c: [0.1, 1.0]
+  boosted_leaf_nodes: [7, 15]
+  maximum_features: 40
+
+allocation:
+  neutral_voo_weight: 0.70
+  maximum_tilt: 0.70
+  methods: [continuous, bucketed, probability]
+  cadences: [daily, weekly]
+  minimum_changes: [0.05, 0.10]
+  buckets: [0.0, 0.20, 0.35, 0.50, 0.65, 0.80, 1.0]
+  execution_lag_sessions: 1
+  transaction_cost_bps: 5.0
+  selection_tolerance_annual_bps: 25.0
+
+holdout:
+  start: "2020-12-02"
+  minimum_years: 3.0
+  require_kmlm_live_etf: true
+  acknowledgement: I_UNDERSTAND_THIS_USES_THE_FINAL_HOLDOUT
+
+deployment:
+  minimum_preholdout_rolling_5y_win_rate: 0.50
+  maximum_reality_check_pvalue: 0.10

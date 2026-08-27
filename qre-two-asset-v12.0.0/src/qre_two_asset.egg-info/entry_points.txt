@@ -1,0 +1,2 @@
+[console_scripts]
+qre2 = qre_two_asset.cli:main
