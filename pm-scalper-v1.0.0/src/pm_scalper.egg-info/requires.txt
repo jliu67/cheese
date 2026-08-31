@@ -1,0 +1,8 @@
+httpx<1,>=0.27
+PyYAML<7,>=6
+rich<15,>=13.7
+websockets<17,>=12
+
+[dev]
+pytest<10,>=8
+pytest-asyncio<2,>=0.23

@@ -1,0 +1,100 @@
+# PM-Scalper V1 is deliberately paper-only. No wallet or private key is used.
+api:
+  gamma_url: "https://gamma-api.polymarket.com"
+  clob_url: "https://clob.polymarket.com"
+  websocket_url: "wss://ws-subscriptions-clob.polymarket.com/ws/market"
+  request_timeout_seconds: 20
+  discovery_page_size: 100
+  discovery_pages: 5
+  reconnect_min_seconds: 1
+  reconnect_max_seconds: 30
+  heartbeat_seconds: 10
+  # Periodic full snapshots recover missed socket updates and certify book freshness.
+  book_refresh_seconds: 30
+
+universe:
+  max_markets: 30
+  include_outcomes: ["Yes", "No"]
+  min_liquidity_usdc: 10000
+  min_volume_24h_usdc: 2500
+  min_price: 0.05
+  max_price: 0.95
+  max_spread_absolute: 0.03
+  min_top_depth_usdc: 1000
+  depth_levels: 5
+  min_hours_to_end: 2
+  # Delayed markets are excluded by default because this is a short-horizon strategy.
+  max_seconds_delay: 0
+  hydrate_market_details: true
+
+strategy:
+  # Signals need enough live history before entries are allowed.
+  warmup_seconds: 120
+  decision_interval_seconds: 2
+  dashboard_interval_seconds: 1
+  equity_sample_seconds: 10
+  signal_log_seconds: 10
+
+  entry_score: 69
+  exit_score: 43
+  target_return: 0.01
+  stop_loss: 0.0125
+  minimum_hold_seconds: 45
+  maximum_hold_seconds: 2700
+  entry_timeout_seconds: 90
+  cooldown_after_exit_seconds: 120
+  stale_book_seconds: 30
+
+  momentum_15s_scale: 0.003
+  momentum_60s_scale: 0.008
+  momentum_300s_scale: 0.02
+  microprice_scale: 0.003
+  volatility_scale: 0.01
+
+  weights:
+    momentum: 0.30
+    book_imbalance: 0.20
+    trade_flow: 0.18
+    volume_acceleration: 0.10
+    microprice: 0.14
+    spread_penalty: 0.16
+    volatility_penalty: 0.08
+
+execution:
+  # These two values are hard-validated. V1 cannot submit live orders.
+  mode: "paper"
+  entry_style: "maker"
+
+  # Improve the best bid where the spread permits, while staying post-only in simulation.
+  improve_bid_ticks: 1
+  # 1.0 means all displayed size already at our price is assumed ahead of us.
+  queue_ahead_fraction: 1.0
+  target_queue_ahead_fraction: 1.0
+
+  # Used conservatively only when Gamma says fees are enabled but omits a usable rate.
+  default_taker_fee_rate: 0.07
+  default_fee_exponent: 1.0
+  taker_slippage_buffer_ticks: 0
+  quantity_decimals: 4
+  flatten_on_shutdown: true
+
+risk:
+  starting_cash_usdc: 10000
+  target_position_usdc: 1000
+  max_position_pct_equity: 0.15
+  max_total_exposure_pct_equity: 0.50
+  max_open_positions: 3
+  max_trades_per_day: 30
+  max_daily_loss_pct: 0.02
+  max_consecutive_losses: 5
+  # A paper order is capped at this fraction of visible five-level bid depth.
+  depth_utilization: 0.20
+  flatten_on_kill_switch: true
+
+storage:
+  data_dir: "data"
+  sqlite_path: "data/pm_scalper.sqlite3"
+  raw_event_dir: "data/raw"
+  export_dir: "exports"
+  log_dir: "logs"
+  raw_flush_every: 25

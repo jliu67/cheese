@@ -1,0 +1,2 @@
+[console_scripts]
+pm-scalper = pm_scalper.cli:main
