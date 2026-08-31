@@ -1,9 +1,0 @@
-joblib>=1.4
-numpy>=1.26
-pandas>=2.1
-PyYAML>=6.0
-scikit-learn>=1.5
-scipy>=1.11
-
-[dev]
-ruff>=0.12
